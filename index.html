@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="index.js" type="module"></script>
+
+    <link rel="stylesheet" href="styles.css" />
+
+    <title>Dog Adoption</title>
+  </head>
+  <body>
+    <header>
+      <h1>Dog Adoption Center</h1>
+    </header>
+    <main>
+      <section id="filter">
+        <label for="breed">Breeds Available for Adoption:</label>
+        <select id="breed">
+          <!-- Breeds will be populated dynamically -->
+        </select>
+      </section>
+      <section id="dog-list">
+        <!-- Dogs will be listed here -->
+      </section>
+      <section id="pagination">
+        <button id="prev-btn" disabled>Previous</button>
+        <span id="page-info"></span>
+        <button id="next-btn">Next</button>
+      </section>
+      <section id="cart">
+        <h2>Shopping Cart</h2>
+        <ul id="cart-items">
+          <!-- Cart items will be listed here -->
+        </ul>
+        <button id="checkout-btn">Checkout</button>
+      </section>
+      <div id="checkout"></div>
+    </main>
+  </body>
+</html>
