@@ -3,17 +3,20 @@
 import { cart, renderCart, addToCart } from "./cart.js";
 
 export function displayContactForm() {
+  //checks if the cart is empty or more than 1 dog as been selected
   if (cart.size === 0) {
     alert(`Cart is empty`);
   } else if (cart.size > 1) {
     alert(`Cannot adopt more than 1 dog`);
   } else {
+    //proceeds with check out if only 1 dog is selected
     const checkout = document.getElementById("checkout");
     checkout.innerHTML = "";
 
     const container = document.createElement("div");
     container.className = "container";
 
+    //Creating form to provide the user details for adoption
     const form = document.createElement("form");
     form.action = "javascript:contactSubmission();"; // Prevent form submission
 
@@ -99,6 +102,8 @@ export function displayContactForm() {
   }
 }
 window.contactSubmission = contactSubmission;
+
+//On submitting the user info an alert message will be displayed and page will be reloaded
 export function contactSubmission() {
   const fName = document.getElementById("fname").value;
   alert(

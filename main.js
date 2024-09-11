@@ -1,35 +1,22 @@
 // main.js
-import {
-  cart,
-  renderCart,
-  addToCart,
-  removeFromCart,
-  cartItemsList,
-} from "./cart.js";
+import { addToCart, removeFromCart, cartItemsList } from "./cart.js";
+
 import { fetchBreeds, fetchDogs } from "./api.js";
-import { displayContactForm, contactSubmission } from "./form.js";
+import { displayContactForm } from "./form.js";
 
 const breedFilter = document.getElementById("breed");
 const dogList = document.getElementById("dog-list");
-const prevBtn = document.getElementById("prev-btn");
-const nextBtn = document.getElementById("next-btn");
-const pageInfo = document.getElementById("page-info");
+
 const checkoutBtn = document.getElementById("checkout-btn");
 
-let currentPage = 1;
-let totalPages = 2;
-
-function updatePageInfo() {
-  pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
-  prevBtn.disabled = currentPage === 1;
-  nextBtn.disabled = currentPage === totalPages;
-}
-
+//Provides array of data about the breeds
 async function handleFetchBreeds() {
   const breeds = await fetchBreeds();
+  console.log(breeds);
   populateBreedFilter(breeds);
 }
 
+//Creating an option element and providing breed.id as value and breed.name as content
 function populateBreedFilter(breeds) {
   breedFilter.innerHTML = `<option value="">All</option>`;
   breeds.forEach((breed) => {
@@ -40,14 +27,15 @@ function populateBreedFilter(breeds) {
   });
 }
 
+//Selects the breed from the list and displays list of dogs for adoption
 async function handleFetchDogs() {
   const selectedBreed = breedFilter.value;
-  const dogs = await fetchDogs(currentPage, selectedBreed);
-  totalPages = Math.ceil(dogs.length / 10);
+  const dogs = await fetchDogs(1, selectedBreed);
+  console.log(dogs);
   renderDogs(dogs);
-  updatePageInfo();
 }
 
+//Forms the div with all the dog info
 function renderDogs(dogs) {
   dogList.innerHTML = "";
   dogs.forEach((dog) => {
@@ -65,19 +53,12 @@ function renderDogs(dogs) {
   });
 }
 
+//On changing the breed from the dropdown invokes the handleFetchDogs
 function handleSearch() {
   handleFetchDogs();
 }
 
-function handlePagination(direction) {
-  if (direction === "next" && currentPage < totalPages) {
-    currentPage++;
-  } else if (direction === "prev" && currentPage > 1) {
-    currentPage--;
-  }
-  handleFetchDogs();
-}
-
+//Adds the selected breed with id, image and name to checkout cart
 function handleDogListClick(event) {
   if (event.target.tagName === "BUTTON") {
     const button = event.target;
@@ -88,6 +69,7 @@ function handleDogListClick(event) {
   }
 }
 
+//Remove the selected breed from the cart by id
 function handleCartClick(event) {
   if (event.target.tagName === "BUTTON") {
     const button = event.target;
@@ -97,8 +79,6 @@ function handleCartClick(event) {
 }
 
 breedFilter.addEventListener("change", handleSearch);
-prevBtn.addEventListener("click", () => handlePagination("prev"));
-nextBtn.addEventListener("click", () => handlePagination("next"));
 dogList.addEventListener("click", handleDogListClick);
 checkoutBtn.addEventListener("click", displayContactForm);
 cartItemsList.addEventListener("click", handleCartClick);
